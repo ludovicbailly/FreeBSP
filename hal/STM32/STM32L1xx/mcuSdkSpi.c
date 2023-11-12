@@ -2,6 +2,7 @@
 
 #include "stm32l1xx.h"
 
+#include "mcuSdkSpiPort.h"
 #include "mcuSdkSpi.h"
 
 //-------------------------------------------------------------------
