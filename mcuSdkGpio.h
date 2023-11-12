@@ -22,6 +22,7 @@ void mcuSdkGpioSetAsInputPullUp( void * ptrGpioBaseAddress, uint8_t pin);
 void mcuSdkGpioSetAsInputPullDown( void * ptrGpioBaseAddress, uint8_t pin);
 void mcuSdkGpioSetPinHigh( void * ptrGpioBaseAddress, uint8_t pin);
 void mcuSdkGpioSetPinLow( void * ptrGpioBaseAddress, uint8_t pin);
+void mcuSdkGpioTogglePin( void * ptrGpioBaseAddress, uint8_t pin);
 bool mcuSdkGpioIsPinLow( void * ptrGpioBaseAddress, uint8_t pin);
 bool mcuSdkGpioIsPinHigh( void * ptrGpioBaseAddress, uint8_t pin);
 

@@ -22,7 +22,9 @@ static GpioIsrCb IsrCallbacksTable[MAX_ISR_NB];
 static void dummyIsrCallback (void);
 static IRQn_Type PinToNvicIRQn(uint8_t pin);
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioInit(void)
 {
   // Enable all GPIOs
@@ -37,7 +39,9 @@ void mcuSdkGpioInit(void)
   }
 }
 
-/**************************************************************/
+/*
+ *
+ */
 uint8_t mcuSdkGpioPortAdressToIndex( void * ptrGpioBaseAddress)
 {
   uint8_t index;
@@ -75,7 +79,9 @@ uint8_t mcuSdkGpioPortAdressToIndex( void * ptrGpioBaseAddress)
   return index;
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioSetAsOutput( void * ptrGpioBaseAddress, uint8_t pin)
 {
   GPIO_TypeDef *ptrGpio = (GPIO_TypeDef *)(ptrGpioBaseAddress);
@@ -88,7 +94,9 @@ void mcuSdkGpioSetAsOutput( void * ptrGpioBaseAddress, uint8_t pin)
   ptrGpio->MODER = modeRValue;
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioSetAsOpenDrainOutput( void * ptrGpioBaseAddress, uint8_t pin)
 {
   GPIO_TypeDef *ptrGpio = (GPIO_TypeDef *)(ptrGpioBaseAddress);
@@ -101,7 +109,9 @@ void mcuSdkGpioSetAsOpenDrainOutput( void * ptrGpioBaseAddress, uint8_t pin)
   ptrGpio->MODER = modeRValue;
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioSetAsInput( void * ptrGpioBaseAddress, uint8_t pin)
 {
   GPIO_TypeDef *ptrGpio = (GPIO_TypeDef *)(ptrGpioBaseAddress);
@@ -111,7 +121,9 @@ void mcuSdkGpioSetAsInput( void * ptrGpioBaseAddress, uint8_t pin)
   ptrGpio->MODER &= ~(0x3uL<< 2*pin); // COnfigure as input
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioSetAsInputPullUp( void * ptrGpioBaseAddress, uint8_t pin)
 {
   mcuSdkGpioSetAsInput( ptrGpioBaseAddress, pin);
@@ -121,7 +133,9 @@ void mcuSdkGpioSetAsInputPullUp( void * ptrGpioBaseAddress, uint8_t pin)
 
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioSetAsInputPullDown( void * ptrGpioBaseAddress, uint8_t pin)
 {
   mcuSdkGpioSetAsInput( ptrGpioBaseAddress, pin);
@@ -131,7 +145,9 @@ void mcuSdkGpioSetAsInputPullDown( void * ptrGpioBaseAddress, uint8_t pin)
 
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioSetPinHigh( void * ptrGpioBaseAddress, uint8_t pin)
 {
   GPIO_TypeDef *ptrGpio = (GPIO_TypeDef *)(ptrGpioBaseAddress);
@@ -140,7 +156,9 @@ void mcuSdkGpioSetPinHigh( void * ptrGpioBaseAddress, uint8_t pin)
 
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioSetPinLow( void * ptrGpioBaseAddress, uint8_t pin)
 {
   GPIO_TypeDef *ptrGpio = (GPIO_TypeDef *)(ptrGpioBaseAddress);
@@ -149,7 +167,25 @@ void mcuSdkGpioSetPinLow( void * ptrGpioBaseAddress, uint8_t pin)
 
 }
 
-/**************************************************************/
+
+/*
+ *
+ */
+void mcuSdkGpioTogglePin( void * ptrGpioBaseAddress, uint8_t pin)
+{
+  if( mcuSdkGpioIsPinHigh( ptrGpioBaseAddress, pin ) == false)
+  {
+    mcuSdkGpioSetPinHigh(ptrGpioBaseAddress, pin);
+  }
+  else
+  {
+    mcuSdkGpioSetPinLow(ptrGpioBaseAddress, pin);
+  }
+}
+
+/*
+ *
+ */
 bool mcuSdkGpioIsPinLow( void *ptrGpioBaseAddress, uint8_t pin )
 {
   GPIO_TypeDef *ptrGpio = (GPIO_TypeDef*)( ptrGpioBaseAddress );
@@ -165,7 +201,9 @@ bool mcuSdkGpioIsPinLow( void *ptrGpioBaseAddress, uint8_t pin )
   return pinState;
 }
 
-/**************************************************************/
+/*
+ *
+ */
 bool mcuSdkGpioIsPinHigh( void *ptrGpioBaseAddress, uint8_t pin )
 {
   GPIO_TypeDef *ptrGpio = (GPIO_TypeDef *)(ptrGpioBaseAddress);
@@ -182,7 +220,9 @@ bool mcuSdkGpioIsPinHigh( void *ptrGpioBaseAddress, uint8_t pin )
   return pinState;
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioConfigureInterruptOnRisingEdge(void * ptrGpioBaseAddress, uint8_t pin, GpioIsrCb callBackRoutine)
 {
   IsrCallbacksTable[pin] = callBackRoutine;
@@ -193,7 +233,9 @@ void mcuSdkGpioConfigureInterruptOnRisingEdge(void * ptrGpioBaseAddress, uint8_t
 
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioConfigureInterruptOnFallingEdge(void * ptrGpioBaseAddress, uint8_t pin, GpioIsrCb callBackRoutine)
 {
   IsrCallbacksTable[pin] = callBackRoutine;
@@ -202,10 +244,12 @@ void mcuSdkGpioConfigureInterruptOnFallingEdge(void * ptrGpioBaseAddress, uint8_
   EXTI->FTSR |= 1uL<< pin;
   EXTI->RTSR |= ~(1uL<< pin);
   SYSCFG->EXTICR[ pin >> 2] &= ~(0x0FuL << (4*( pin & 3uL)));
-  SYSCFG->EXTICR[ pin >> 2] |= (  mcuSdkGgpioPortAdressToIndex(ptrGpio) << (4*( pin & 3uL)));
+  SYSCFG->EXTICR[ pin >> 2] |= (  mcuSdkGpioPortAdressToIndex(ptrGpio) << (4*( pin & 3uL)));
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioConfigureInterruptOnBothEdge(void * ptrGpioBaseAddress, uint8_t pin, GpioIsrCb callBackRoutine)
 {
   IsrCallbacksTable[pin] = callBackRoutine;
@@ -215,7 +259,9 @@ void mcuSdkGpioConfigureInterruptOnBothEdge(void * ptrGpioBaseAddress, uint8_t p
   SYSCFG->EXTICR[ pin >> 2] &= ~(0x0FuL << (4*( mcuSdkGpioPortAdressToIndex(ptrGpio) & 3uL)));
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioEnableInterrupt(void * ptrGpioBaseAddress, uint8_t pin)
 {
  // GPIO_TypeDef *ptrGpio = (GPIO_TypeDef *)(ptrGpioBaseAddress); // Unused but MISRA compliant
@@ -225,7 +271,9 @@ void mcuSdkGpioEnableInterrupt(void * ptrGpioBaseAddress, uint8_t pin)
 
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioDisableInterrupt(void * ptrGpioBaseAddress, uint8_t pin)
 {
   //GPIO_TypeDef *ptrGpio = (GPIO_TypeDef *)(ptrGpioBaseAddress); // Unused but MISRA compliant
@@ -233,7 +281,9 @@ void mcuSdkGpioDisableInterrupt(void * ptrGpioBaseAddress, uint8_t pin)
   __NVIC_DisableIRQ( PinToNvicIRQn(pin));
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void mcuSdkGpioClearPendingInterrupt(void * ptrGpioBaseAddress, uint8_t pin)
 {
   //GPIO_TypeDef *ptrGpio = (GPIO_TypeDef *)(ptrGpioBaseAddress); // Unused but MISRA compliant
@@ -241,37 +291,49 @@ void mcuSdkGpioClearPendingInterrupt(void * ptrGpioBaseAddress, uint8_t pin)
   __NVIC_ClearPendingIRQ(PinToNvicIRQn(pin));
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void EXTI0_IRQHandler(void)
 {
   IsrCallbacksTable[0]();
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void EXTI1_IRQHandler(void)
 {
   IsrCallbacksTable[1]();
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void EXTI2_IRQHandler(void)
 {
   IsrCallbacksTable[2]();
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void EXTI3_IRQHandler(void)
 {
   IsrCallbacksTable[3]();
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void EXTI4_IRQHandler(void)
 {
   IsrCallbacksTable[4]();
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void EXTI9_5_IRQHandler(void)
 {
   uint8_t offset = 5u;
@@ -292,7 +354,9 @@ void EXTI9_5_IRQHandler(void)
   }
 }
 
-/**************************************************************/
+/*
+ *
+ */
 void EXTI15_10_IRQHandler(void)
 {
   uint8_t offset = 10u;
@@ -314,12 +378,17 @@ void EXTI15_10_IRQHandler(void)
 }
 
 
-/**************************************************************/
+/*
+ *
+ */
 static void dummyIsrCallback (void)
 {
 
 }
 
+/*
+ *
+ */
 static IRQn_Type PinToNvicIRQn(uint8_t pin)
 {
   IRQn_Type irqType;
