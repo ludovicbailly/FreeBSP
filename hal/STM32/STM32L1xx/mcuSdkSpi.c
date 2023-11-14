@@ -8,7 +8,7 @@
 //-------------------------------------------------------------------
 //
 //------------------------------------------------------------------
-void mcuSdkSpiInit(void * spiBaseAddress, McuSdkSpiConfig_s *ptrConfig)
+void mcuSdkSpiInit(void * spiBaseAddress, const McuSdkSpiConfig_s * const ptrConfig)
 {
   SPI_TypeDef *ptrSpi = (SPI_TypeDef*)spiBaseAddress;
 

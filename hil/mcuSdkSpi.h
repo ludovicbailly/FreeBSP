@@ -21,7 +21,7 @@ typedef struct
   bool            IsLsdFirst;
 }McuSdkSpiConfig_s;
 
-void mcuSdkSpiInit(void * spiBaseAddress, McuSdkSpiConfig_s *ptrConfig);    // Init spi bus
+void mcuSdkSpiInit(void * spiBaseAddress, const McuSdkSpiConfig_s * const ptrConfig);    // Init spi bus
 uint8_t mcuSdkSpiWriteAndReadChar(void* spiBaseAddress, uint8_t data);      // Send a byte on bus and returned the byte received
 
 #endif
