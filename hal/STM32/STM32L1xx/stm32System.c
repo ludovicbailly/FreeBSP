@@ -8,8 +8,8 @@
 
 #include "stm32l1xx.h"
 
-#include "McuSdkConfig.h"
-#include "mcuSdkSystem.h"
+#include "mcuConfig.h"
+#include "mcuSystem.h"
 
 //static uint32_t nestedCriticalSessionCount = 0uL; //!< Stores the number of nested critical session requests
 
