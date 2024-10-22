@@ -13,7 +13,7 @@
 // STM32 low level definitions
 #include "stm32l1xx.h"
 // API def
-#include "mcuSdkGpio.h"
+#include "mcuGpio.h"
 
 #define MAX_ISR_NB  16
 
